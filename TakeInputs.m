@@ -28,10 +28,30 @@ clusteringType = input('Input the type of clustering :   ');
 switch clusteringType
       case 1  % GridPartition
           
-            genOpt = genfisOptions('GridPartition');
-            genOpt.NumMembershipFunctions = [4 4 4];
-            genOpt.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
-            genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genOpt);
+          disp("Selected Clustering type : Grid Partition");
+          
+            genfisOpt_1 = genfisOptions('GridPartition');
+            genfisOpt_1.NumMembershipFunctions = [4 4 4];
+            genfisOpt_1.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+            genfisObject_1=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt_1);
+            
+            %{ 
+                genfisOpt_2 = genfisOptions('GridPartition');
+                genfisOpt_2.NumMembershipFunctions = [4 4 4];
+                genfisOpt_2.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+                genfisObject_2=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt_2);
+
+                genfisOpt_3 = genfisOptions('GridPartition');
+                genfisOpt_3.NumMembershipFunctions = [4 4 4];
+                genfisOpt_3.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+                genfisObject_3=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt_3);
+            %}
+            
+            
+            
+            [a, b, c, d] = anfisEval(trndata1, chkdata1, tesdata1, genfisObject_1);
+            disp(a);
+            
             
             %{
                 [x,mf] = plotmf(genfisObject, 'input',1);
@@ -52,42 +72,28 @@ switch clusteringType
             
       case 2  % FCM Clustering
           
-            genOpt = genfisOptions('FCMClustering' );
-            genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genOpt);
+            genfisOpt = genfisOptions('FCMClustering' );
+            genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt);
             
       case 3  % Subtractive Clustering
           
-            genOpt = genfisOptions('SubtractiveClustering', 'ClusterInfluenceRange',[0.5 0.25 0.3 0.4]); 
-            genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genOpt);
+            genfisOpt = genfisOptions('SubtractiveClustering', 'ClusterInfluenceRange',[0.5 0.25 0.3 0.4]); 
+            genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt);
             
     otherwise 
             disp('Something went wrong')
 end
 
 
-anfisOpt = anfisOptions('InitialFIS',genfisObject);
-anfisOpt.DisplayANFISInformation = 0;
-anfisOpt.DisplayErrorValues = 0;
-anfisOpt.DisplayStepSize = 0;
-anfisOpt.DisplayFinalResults = 0;
-anfisOpt.ValidationData = chkdata1;
-
-%  [fis,trainError,stepSize,chkFIS,chkError] = anfis(trainingData,options)
-
-fprintf('-->%s\n','Start training first ANFIS network.')
-%outFIS = anfis(trndata1(:,1:4), anfisOpt);
-
-[outFis,trainError,stepSize, chkFIS, chkError] = anfis(trndata1(:,1:4), anfisOpt);
-
-chkOut1 = evalfis(chkFIS, tesdata1(:,1:3) );   
-
-theta1_diff=tesdata1(:,4)-chkOut1;
-
+%{
 figure()
 subplot(3,1,1);
 plot(theta1_diff);
 ylabel('theta1 error')
 title('Desired theta1 - Predicted theta1(degree)')
+%}
+
+
 
 
 

@@ -21,32 +21,12 @@ trndata1=data_(1:round( size(data_,1)*5/7),1:4); %21600*4
 chkdata1=data_(round(size(data_,1)*5/7)+1:round(size(data_,1)*6/7),1:4);
 tesdata1=data_(round(size(data_,1)*6/7)+1:size(data_,1),1:4);
 
-%genOpt = genfisOptions('GridPartition');
-genOpt = genfisOptions('FCMClustering' ,'FISType','mamdani');
-%genOpt = genfisOptions('SubtractiveClustering', 'ClusterInfluenceRange',[0.5 0.25 0.3 0.4]); 
-%genOpt.NumMembershipFunctions = [4 4 4];
-%genOpt.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+genOpt = genfisOptions('GridPartition');
+genOpt.NumMembershipFunctions = [4 4 4];
+genOpt.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
 
 genfisObject=genfis(trndata1(:, 1:3),trndata1(:, 4), genOpt);
 
-
-
-%{
-[x,mf] = plotmf(genfisObject, 'input',1);
-subplot(3, 1, 1);
-plot(x,mf)
-xlabel('Membership Functions for Input 1')
-
-[x,mf] = plotmf(genfisObject, 'input',2);
-subplot(3, 1, 2);
-plot(x,mf)
-xlabel('Membership Functions for Input 2')
-
-[x,mf] = plotmf(genfisObject, 'input',3);
-subplot(3, 1, 3);
-plot(x,mf)
-xlabel('Membership Functions for Input 3')
-%}
 
 anfisOpt = anfisOptions('InitialFIS',genfisObject);
 anfisOpt.DisplayANFISInformation = 0;
@@ -62,12 +42,23 @@ fprintf('-->%s\n','Start training first ANFIS network.')
 
 [outFis,trainError,stepSize, chkFIS, chkError] = anfis(trndata1(:,1:4), anfisOpt);
 
-outFisRMSE = min(trainError);
+trnOut1 = evalfis(outFis, trndata1(:,1:3) );
 
+chkOut1 = evalfis(chkFIS, tesdata1(:,1:3) );   
+
+theta1_diff=tesdata1(:,4)-chkOut1;
+
+
+
+
+
+%{
 figure(1)
 plot(trainError,'r')
 hold on;
 plot(chkError,'b')
+%}
+
 
 
 
