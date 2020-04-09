@@ -1,0 +1,12 @@
+x = (0:0.2:10)';
+y = sin(2*x)./exp(x/5) + randn(size(x))/30;
+TrainData = [x y];
+NumMfs = 5;
+MfType = 'gbellmf';
+NumEpochs = 20;
+StepSize = 0.1;
+InputFismat = genfis1(TrainData, NumMfs, MfType);
+OutputFismat = anfis(TrainData, InputFismat, [NumEpochs nan StepSize]);
+yy = evalfis(x, OutputFismat);
+plot(x, y, 'o', x, yy, 'x', x, y, 'y', x, yy, 'm');
+legend('Training Data', 'ANFIS Output');
