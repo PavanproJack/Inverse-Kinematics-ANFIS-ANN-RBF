@@ -19,19 +19,10 @@ data = [X(:) Y(:) phi(:) THETA1(:) THETA2(:) THETA3(:)];
 
 data_ = data(  randperm( size(data, 1) ),   :  );
 
-%Data Splitting
-train_partition_1 = data_(1:round( size(data_,1)*5/7),1:4);  
-train_partition_2 = data_(1:round(size(data_,1)*5/7),[1,2,3,5]);
-train_partition_3 = data_(1:round(size(data_,1)*5/7),[1,2,3,6]);  
-
-check_partition_1 = data_(round(size(data_,1)*5/7)+1:round(size(data_,1)*6/7),1:4);
-check_partition_2 = data_(round(size(data_,1)*5/7)+1:round(size(data_,1)*6/7),[1,2,3,5]);
-check_partition_3 = data_(round(size(data_,1)*5/7)+1:round(size(data_,1)*6/7),[1,2,3,6]);
-
-test_partition_1 = data_(round(size(data_,1)*6/7)+1:size(data_,1),1:4);
-test_partition_2 = data_(round(size(data_,1)*6/7)+1:size(data_,1),[1,2,3,5]);
-test_partition_3 = data_(round(size(data_,1)*6/7)+1:size(data_,1),[1,2,3,6]);
 %
+train_partition_1 = data_(1:round( size(data_,1)*5/7),1:4); %21600*4
+check_partition_1 = data_(round(size(data_,1)*5/7)+1:round(size(data_,1)*6/7),1:4);
+test_partition_1 = data_(round(size(data_,1)*6/7)+1:size(data_,1),1:4);
 
 clusteringType = input('Input the type of clustering :   ');
 
@@ -41,31 +32,26 @@ switch clusteringType
           disp("Selected Clustering type : Grid Partition");
           
             genfisOpt_1 = genfisOptions('GridPartition');
-            genfisOpt_1.NumMembershipFunctions = [3 3 3];
-            genfisOpt_1.InputMembershipFunctionType = ["gaussmf" "gaussmf", "gaussmf"];
+            genfisOpt_1.NumMembershipFunctions = [4 4 4];
+            genfisOpt_1.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
             genfisObject_1=genfis(train_partition_1(:, 1:3), train_partition_1(:, 4), genfisOpt_1);
             
- 
+            %{ 
                 genfisOpt_2 = genfisOptions('GridPartition');
                 genfisOpt_2.NumMembershipFunctions = [4 4 4];
-                genfisOpt_2.InputMembershipFunctionType = ["gaussmf" "gaussmf", "gaussmf"];
-                genfisObject_2=genfis(train_partition_2(:, 1:3),train_partition_2(:, 4), genfisOpt_2);
+                genfisOpt_2.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+                genfisObject_2=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt_2);
 
                 genfisOpt_3 = genfisOptions('GridPartition');
                 genfisOpt_3.NumMembershipFunctions = [4 4 4];
-                genfisOpt_3.InputMembershipFunctionType = ["gaussmf" "gaussmf", "gaussmf"];
-                genfisObject_3=genfis(train_partition_3(:, 1:3),train_partition_3(:, 4), genfisOpt_3);
-             
-                
-            [a1, b1, c1, d1] = anfisEval(train_partition_1, check_partition_1, test_partition_1, genfisObject_1, 1);
+                genfisOpt_3.InputMembershipFunctionType = ["trimf" "gaussmf", "gaussmf"];
+                genfisObject_3=genfis(trndata1(:, 1:3),trndata1(:, 4), genfisOpt_3);
+            %}
             
-            [a2, b2, c2, d2] = anfisEval(train_partition_2, check_partition_2, test_partition_2, genfisObject_2, 2);
             
-            [a3, b3, c3, d3] = anfisEval(train_partition_3, check_partition_3, test_partition_3, genfisObject_3, 3);
             
-
-                
-            
+            [a, b, c, d] = anfisEval(train_partition_1, check_partition_1, test_partition_1, genfisObject_1, 1);
+            disp(a);
             
             
             %{
