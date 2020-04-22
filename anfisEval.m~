@@ -35,9 +35,9 @@ function [outputArg1, outputArg2, outputArg3, outputArg4] = anfisEval(trainData,
                 figure(1)
                 subplot(3,1, number);
                 plot(thetaDifference);
-                ylabel(['theta ' num2str(number,'%d') ' Error']);
-                titles= ['Desired theta' num2str(number,'%d' ) '- Predicted theta' num2str(number,'%d' ) '(degree)'];
-                title(titles);
+                ylabel('theta1 error')
+                l = ['Desired theta' num2str(number,'%d'  );
+                title('Desired theta1 - Predicted theta1(degree)')
                 
                 %{
                 figure(2)

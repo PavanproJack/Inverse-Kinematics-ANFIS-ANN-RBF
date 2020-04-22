@@ -43,28 +43,28 @@ test_partition_3 = data_(round(size(data_,1)*6/7)+1:size(data_,1),[1,2,3,6]);
 hiddenSizes = 10;
 
 %net1=newrb(train_partition_1(:,1:3)',train_partition_1(:,4)',0.8,5,300,8);
-net1= fitnet(hiddenSizes);
+net1= fitnet(10);
 net1.layers{1}.transferFcn = 'radbas';
 tic
-net1_model = train(net1,train_partition_1(:,1:3)',train_partition_1(:,4)');
+net1 = train(net1,train_partition_1(:,1:3)',train_partition_1(:,4)');
 toc
-thetar1=sim(net1_model, test_partition_1(:,1:3)');
+thetar1=sim(net1,test_partition_1(:,1:3)');
 
 %net2=newrb(train_partition_2(:,1:3)',train_partition_2(:,4)',0.8,5,300,8);
-net2= fitnet(hiddenSizes);
+net2= fitnet(10);
 net2.layers{1}.transferFcn = 'radbas';
 tic
-net2_model = train(net2,train_partition_2(:,1:3)',train_partition_2(:,4)');
+%net2 = train(net2,train_partition_2(:,1:3)',train_partition_2(:,4)');
 toc
-thetar2=sim(net2_model, test_partition_2(:,1:3)');
+thetar2=sim(net2,test_partition_2(:,1:3)');
 
 %net3=newrb(train_partition_3(:,1:3)',train_partition_3(:,4)',0.8,5,300,8);
-net3= fitnet(hiddenSizes);
+net3= fitnet(8);
 net3.layers{1}.transferFcn = 'radbas';
 tic
-net3_model = train(net3,train_partition_3(:,1:3)',train_partition_3(:,4)');
+net3 = train(net3,train_partition_3(:,1:3)',train_partition_3(:,4)');
 toc
-thetar3=sim(net3_model, test_partition_3(:,1:3)');
+thetar3=sim(net3,test_partition_3(:,1:3)');
 
 thetar1_diff=test_partition_1(:,4)-thetar1(:);
 thetar2_diff=test_partition_2(:,4)-thetar2(:);
