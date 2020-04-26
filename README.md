@@ -9,6 +9,7 @@ Results are simulated using MATLAB 2019a version using Fuzzy Logic and Deep Lear
 ##  3R Manipulator Arm
 
 Algorithm followed while developing the solution is detailed here:
+```
 1.  Generate data from Forward Kinematics calculations mentioned below.
 2.  Split the data into Train, Validation and Test partitions.
 3.  Feed the data to ANFIS, RBF and ANN achitectures and compare the results.
@@ -20,6 +21,8 @@ X = l1cosθ1 + l2cos(θ1 + θ2) + l3cos(θ1 + θ2) + θ3)
 Y = l1sinθ1 + l2sin(θ1 + θ2) + l3sin(θ1 + θ2) + θ3)
 
 φ = θ1 + θ2 + θ3
+
+```
 
 Where X, Y, φ is the end-effector configuration, θ1, θ2, θ3 is the joint configuration angles. In
 the context of this coursework, the length for three links are supposed to be l1 = 10, l2 = 7 and
@@ -35,10 +38,7 @@ Finally test the accuaracy with theta_difference variables.
 
 ### RBF Modelling 
 Radial basis function performs a non-linear transformation over the input vectors before input
-vectors are fed for classification. By using such non-linear transformations, we can convert a linearly non-separable problems like inverse kinematics to a linearly separable problem. Radial basis
-function networks typically have three layers: an input layer, a hidden layer with a nonlinear
-RBF activation function and a linear output layer. Hidden layer performs non-linear transformation with an activation function which is Gaussian here and is characterized by its response that
-decreases monotonically with distance from a central point.
+vectors are fed for classification. By using such non-linear transformations, we can convert a linearly non-separable problems like inverse kinematics to a linearly separable problem. 
 
 RBF increases the dimensionality of the feature vectors. Increasing the dimension, increases
 the chance of linear separability.
@@ -48,7 +48,7 @@ produce an associated set of target outputs. Here ’fitnet(hiddenSizes, trainin
 a function fitting neural network with one hidden layer of size of 50 neurons trained using ’Bayesian
 Regularisation’ training algorithm.
 
-
+```
 %% Here ’fitnet (50 , ’trainbr ’) ’ returns a function fitting neural network with
 one hidden layer of size of 50 neurons trained using ’Bayesian
 Regularisation’ .
@@ -64,12 +64,16 @@ thetar1 = sim ( net1 , test_partition_1 (: ,1:3) ’) ;
 
 Finally % Calculate the deviation from the actual value and plot the difference for the
 3 joint angles .
-
+```
 
 ### ANN Modelling 
 ANNs can be applied to the problems with no algorithmic solutions or with too complex algorithmic
 solutions to be found. Their ability of learning by examples makes the ANNs more flexible and
 powerful than the parametric approaches.
+
+```
+
+```
 
 
 
