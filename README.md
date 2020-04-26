@@ -66,6 +66,13 @@ Finally % Calculate the deviation from the actual value and plot the difference 
 3 joint angles .
 
 
+### ANN Modelling 
+ANNs can be applied to the problems with no algorithmic solutions or with too complex algorithmic
+solutions to be found. Their ability of learning by examples makes the ANNs more flexible and
+powerful than the parametric approaches.
+
+
+
 #### Preliminary Rules: 
 1.	You must have at least one more frame than there are joints - one frame must be on the end effector
 2.	All axes must be drawn either up, down, right, left or in the first or third quadrant.
