@@ -1,11 +1,9 @@
-# Inverse-Kinematics-ANFIS-ANN-RBF
+# 3R Robot Inverse Kinematics Modelling with ANFIS ANN & RBF
+Inverse kinematics is an under-constrained and ill-conditioned problem in Robotics that requires
+the determination of the joint angles for a desired position of the end-effector. This repository addresses this problem by learning-inverse-kinematics with Adaptive Neuro Fuzzy Inference
+System (ANFIS), Radial Basis Function (RBF), and Artificial Neural Network (ANN). 
+Results are simulated using MATLAB 2019a version using Fuzzy Logic and Deep Learning Toolboxes.
 
-
-
-Lynxmotion arm is a 5R serial robot manipulator with 2 spherical and 3 revolute joints. This work presents the forward and inverse kinematics of the arm in implementing a task of drawing a letter "W".
-This was experimented in Matlab software using the Robotics Toolbox library. 
-
-Robotics Toolbox provides tools and algorithms for designing, simulating, and testing manipulators, mobile robots, and humanoid robots. 
 
 
 ## Forward Kinematics
