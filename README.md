@@ -31,9 +31,24 @@ l3 = 5 with joint angle constraints: 0 < θ1 < pi/2, 0 < θ2 < pi/2, 0 < θ3 < p
 Coordinates of the arm are calculated for three joints using forward kinematics
 
 ### ANFIS Modelling - Sugeno type
-ANFIS architecture is tested for Performance and Mean Square Error using 3 clustering types: GridPartition, FCM Clustering and Subtractive Clustering. Install the Matlab Fuzzy Logic Toolbox, Run the script MainFile.m and selct the clustering type. Hack into the script to change the number and type of membership functions. Create the genfis object with options and pass this object to anfis and finally evaluate the model using evalfis function. Outfis is the trained model with training data. Evalfis function predicts the output with testdata against the Outfis trained model.
+ANFIS architecture is tested for Performance and Mean Square Error using 3 clustering types: GridPartition, FCM Clustering and Subtractive Clustering. Install the Matlab Fuzzy Logic Toolbox, Run the script MainFile.m and selct the clustering type. 
+Hack into the script to change the number and type of membership functions.
 
-Finally test the accuaracy with theta_difference variables.
+```
+%% Create the genfis object with options and pass this object to anfis and finally evaluate the model using evalfis function. 
+
+genfisOpt_1 = genfisOptions (’ GridPartition ’) ;
+genfisOpt_1 . NumMembershipFunctions = [3 3 3];
+genfisOpt_1 . InputMembershipFunctionType = [" gaussmf " " gaussmf " , "gaussmf "];
+genfisObject_1 = genfis ( train_partition_1 (: , 1:3) , train_partition_1(: , 4) , genfisOpt_1 ) ;
+
+%% Replicte the same for train_partition_2 and train_partition_3
+%% anfisEval is a user - defined method for training ANFIS network .
+
+anfisEval ( train_partition_1 , check_partition_1 , test_partition_1 ,genfisObject_1 , 1) ;  %% Function at anfisEval.m
+
+```
+Test the accuaracy with theta_difference variables.
 
 
 ### RBF Modelling 
