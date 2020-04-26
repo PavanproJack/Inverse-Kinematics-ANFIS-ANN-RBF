@@ -87,74 +87,62 @@ solutions to be found. Their ability of learning by examples makes the ANNs more
 powerful than the parametric approaches.
 
 ```
+trainingFunction = ’trainbr ’; %% Bayesian Regualrization
+hiddenLayers = [10 , 10]; % 2 hidden layers with 10 neurons in each
 
+network_1 = feedforwardnet ( hiddenLayers , trainingFunction ) ;
+
+%%Now Train this shallow neural network with ’train ’ function to generate a trained model .
+
+networkModel_1 = train ( network_1 , train_partition_1 (: ,1:3) ’, train_partition_1(: ,4) ’) ;
+
+view ( networkModel_1 );
+save networkModel_1 ;
+
+load networkModel_1 ;
+
+Q_1 = networkModel_1 ( test_partition_1 (: ,1:3) ’) ;
+% Test the performance
+perf_1 = perform ( networkModel_1 , Q_1 , test_partition_1 (: ,4) ’) ;
+disp ( perf_1 ) ;
+Replicate the same to create network models 2 and 3.
 ```
 
+### Comparision and Analysis
+
+Results of the simulation can be found in the folders: ANN Plots, RBF Plots and ANFIS Plots.
+
+The following conclusions have been drawn by observing the results of simulation
+1.  Performance of ANFIS network is significantly improved with the increase in the number
+of membership functions from 3 to 5, be it a Gaussian or Bell-Shaped membership function. Subtractive and FCM Clusterings didn’t show any significant improvement in the error
+for any multiple Cluster Influence Range. This implies that ANFIS converges to a better
+approximation with clustering type GridPartition and 5 Gaussian/Bell-Shaped membership
+functions for each input.
+
+2.  Radial Basis Function network, deviation(in joint angles) plots are evaluated for 50 and 100
+one hidden layer. Bayesian Regularization algorithm showed the better results compared to
+Levenberg-Marquardt. Hidden size of 50 has converged to an acceptable error range.
+
+3.  In Artificial Neural Network, deviation(in joint angles) plots are evaluated with two and
+one hidden layers. Also here, Bayesian Regularization algorithm showed the better results
+compared to Levenberg-Marquardt. Two hidden layers with 10 neurons in each has better
+time complexity and accuracy compared to the network with 50 neurons in one hidden layer.
+And finally, prediction performance, from the approximation accuracy and time complexity
+point of view is satisfactory with the Artificial Neural Network with two hidden layers and 10
+Neurons in each layer. 
 
 
-#### Preliminary Rules: 
-1.	You must have at least one more frame than there are joints - one frame must be on the end effector
-2.	All axes must be drawn either up, down, right, left or in the first or third quadrant.
-3.	The Z-axis must be the axis of revolution or the direction of motion
-4.	The X-axis must be perpendicular to the Z-axis of the frame before it.
-5.	The Y-axis must be drawn so the whole frame follows the right-hand rule.
+## ANFIS Plot:
 
+<img src = "/ANFIS Plots/Gauss 5MF Theta difference.png" width = "300"> 
 
-| Frame(i) | θ | 𝜶 | r | d |
-|-------|--------|---------|--------|---------|
-| 1 | θ1 | 90 | 0 | L1 |
-| 2 | θ2 | 0 | L2 | 0 |
-| 3 | θ3 | 0 | L3 | 0 |
-| 4 | θ4 + 90 | -90 | L4 | 0 |
-| 5 | θ5 | 0 | 0 | L5 |
+## ANN Plot:
 
+<img src = "/ANN Plots/ANN with 2 hidden layers Theta difference.png" width = "300"> 
 
-#### Workspace Plotting:
-A really important consideration with any robot is the set of all possible points that it can reach and we refer to this volume as workspace of the robot. It also shows the volume around the body where it cannot reach either. And this is due to mechanical limits on the range of motion of particular joints.Here we plot the workspace of the Lynx motion robot with all possible joint angles within their corresponding joint limits. Script for plotting workspace can be found in WorkSpace.m file.
+## RBF Plot:
 
-
-<img src = "WorkspaceXY.png" width = "300">  <img src = "Workspace XZ axes.png" width = "300"> 
-
-<img src = "Workspace YZ axes.png" width = "300"> <img src = "WorkspaceXYZ axes.png" width = "300">
-
-## Inverse Kinematics
-
-Inverse Kinematics (IK) is defined as the problem of determining a set of appropriate joint configurations for which the end effector move to desired positions as smoothly, rapidly, and as accurately as possible.
-
-In comparison to forward kinematics, computing inverse kinematics is computationally intensive.
-There exist many methods for solving this problem.
-  a)	Jacobian Inverse Methods 
-  b)	Algebraic approach
-  c)	Geometrical approach
-  d)	Decoupling technique
-  e)	Inverse transformation technique
-  
-We use RObotics Toolbox to solve the inverse kinematics problem.
-
-# Motion Planning
-
-Motion planning includes four steps.
-1. Task planning (for eg. movement from positions A to B)
-2. Path Planning (generating a set of points that will take me close to B from A)
-3. Trajectory planning (build a trajectory with the set of points while avoiding collisions)
-4. Controller actuation to complete the action 
-
-For example, a welding robot that welds the joints. Here, besides the initial and final positions, the path of the end effector has the significance to make the correct welding.
-
-### Draw the character ‘ W ’
-This task is achieved using the Robotics ToolBox developed by Petercorke. 
-
-Algorithm for planning the trajectory:
-1.	Identify spatial coordinates of the shape/trajectory. Here it is ‘W’.
-2.	Calculate the transformation matrices of all the points with respect to base frame.
-3.	Now compute the inverse kinematics and find out the joint angles.
-4.	Use ‘mstraj’ or ‘jtraj’ get the way points and plot them together to form the trajectory.
-
-Script executing this algorithm can be found under PathPlanning.m file in this repository.
-
-<img src = "Straight Line Trajectory.png" width = "300">  <img src = "Free motion Trajectory.png" width = "300"> 
-
-<img src = "Obstacle Avoidance Trajectory.png" width = "300"> 
+<img src = "RBF plots/RBF_50 neurons_Theta difference.png" width = "300"> 
 
 
 
