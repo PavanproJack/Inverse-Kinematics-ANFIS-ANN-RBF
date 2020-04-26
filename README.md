@@ -9,12 +9,16 @@ Results are simulated using MATLAB 2019a version using Fuzzy Logic and Deep Lear
 ##  3R Manipulator Arm
 
 Algorithm followed while developing the solution is detailed here:
-• Generate data from Forward Kinematics calculations mentioned below.
-• Split the data into Train, Validation and Test partitions.
-• Feed the data to ANFIS, RBF and ANN achitectures and compare the results.
+1.  Generate data from Forward Kinematics calculations mentioned below.
+2.  Split the data into Train, Validation and Test partitions.
+3.  Feed the data to ANFIS, RBF and ANN achitectures and compare the results.
+
 For a 3 DOF planar redundant manipulator, the forward kinematic equations are:
+
 X = l1cosθ1 + l2cos(θ1 + θ2) + l3cos(θ1 + θ2) + θ3)
+
 Y = l1sinθ1 + l2sin(θ1 + θ2) + l3sin(θ1 + θ2) + θ3)
+
 φ = θ1 + θ2 + θ3
 
 ### DH Notation
