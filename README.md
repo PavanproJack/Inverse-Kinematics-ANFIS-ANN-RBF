@@ -21,9 +21,50 @@ Y = l1sinθ1 + l2sin(θ1 + θ2) + l3sin(θ1 + θ2) + θ3)
 
 φ = θ1 + θ2 + θ3
 
-### DH Notation
+Where X, Y, φ is the end-effector configuration, θ1, θ2, θ3 is the joint configuration angles. In
+the context of this coursework, the length for three links are supposed to be l1 = 10, l2 = 7 and
+l3 = 5 with joint angle constraints: 0 < θ1 < pi/2, 0 < θ2 < pi/2, 0 < θ3 < pi/2
 
-This approach attaches a coordinate frame at each joint and specifies four parameters known as DH parameters for each link. Using DH parameters, DH table is created to obtain the transformation matrix between coordinate frames.
+Coordinates of the arm are calculated for three joints using forward kinematics
+
+### ANFIS Modelling - Sugeno type
+ANFIS architecture is tested for Performance and Mean Square Error using 3 clustering types: GridPartition, FCM Clustering and Subtractive Clustering. Install the Matlab Fuzzy Logic Toolbox, Run the script MainFile.m and selct the clustering type. Hack into the script to change the number and type of membership functions. Create the genfis object with options and pass this object to anfis and finally evaluate the model using evalfis function. Outfis is the trained model with training data. Evalfis function predicts the output with testdata against the Outfis trained model.
+
+Finally test the accuaracy with theta_difference variables.
+
+
+### RBF Modelling 
+Radial basis function performs a non-linear transformation over the input vectors before input
+vectors are fed for classification. By using such non-linear transformations, we can convert a linearly non-separable problems like inverse kinematics to a linearly separable problem. Radial basis
+function networks typically have three layers: an input layer, a hidden layer with a nonlinear
+RBF activation function and a linear output layer. Hidden layer performs non-linear transformation with an activation function which is Gaussian here and is characterized by its response that
+decreases monotonically with distance from a central point.
+
+RBF increases the dimensionality of the feature vectors. Increasing the dimension, increases
+the chance of linear separability.
+
+Function fitting is the process of training a neural network on a set of inputs in order to
+produce an associated set of target outputs. Here ’fitnet(hiddenSizes, trainingFunction);’ returns
+a function fitting neural network with one hidden layer of size of 50 neurons trained using ’Bayesian
+Regularisation’ training algorithm.
+
+
+%% Here ’fitnet (50 , ’trainbr ’) ’ returns a function fitting neural network with
+one hidden layer of size of 50 neurons trained using ’Bayesian
+Regularisation’ .
+
+% Train the network using a set of training data .
+net1 = train ( net1 , train_partition_1 (: ,1:3) ’, train_partition_1 (: ,4) ’) ;
+
+%% Once the neural network has fit the data , it forms a generalization of the
+input - output relationship and now use this trained network to generate outputs for inputs it was not trained
+on.
+
+thetar1 = sim ( net1 , test_partition_1 (: ,1:3) ’) ;
+
+Finally % Calculate the deviation from the actual value and plot the difference for the
+3 joint angles .
+
 
 #### Preliminary Rules: 
 1.	You must have at least one more frame than there are joints - one frame must be on the end effector
