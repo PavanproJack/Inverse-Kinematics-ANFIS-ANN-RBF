@@ -147,7 +147,9 @@ Neurons in each layer.
 
 
 ### References
+Matlab Fuzzy Logic Toolbox
 
+Matlab Deep Learning Toolbox
 
 https://github.com/lq147258369/ANFIS
 
